@@ -1,7 +1,13 @@
-import Dashboard from "./dashboard/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
+import PreLoader from "./components/PreLoader";
 
 function App() {
-	return <Dashboard />;
+	return (
+		<>
+			{/* <PreLoader /> */}
+			<Dashboard />
+		</>
+	);
 }
 
 export default App;
