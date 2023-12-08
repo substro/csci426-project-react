@@ -14,6 +14,9 @@ import Typography from "@mui/material/Typography";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import * as React from "react";
 import { mainListItems, secondaryListItems } from "./listItems";
+import { useLocation } from "react-router-dom";
+
+
 
 const drawerWidth: number = 240;
 
@@ -59,89 +62,121 @@ const Drawer = styled(MuiDrawer, {
 			}),
 			width: theme.spacing(7),
 			[theme.breakpoints.up("sm")]: {
-				width: theme.spacing(7),
+				width: theme.spacing(9),
 			},
 		}),
 	},
 }));
 
-export default function Dashboard() {
+// TODO remove, this demo shouldn't need to reset the theme.
+const defaultTheme = createTheme();
+
+type MainLayoutProps = {
+	children: React.ReactNode;
+};
+
+const MainLayout: React.FC<MainLayoutProps> = (props) => {
+	const { children } = props;
+
+	const location = useLocation();
+  const path = location.pathname;
+
 	const [open, setOpen] = React.useState(true);
 	const toggleDrawer = () => {
 		setOpen(!open);
 	};
 
+
+
+  // Function to get the page name from the path
+  const getPageName = (path: string) => {
+    switch (path) {
+      case '/':
+        return 'Home';
+      case '/dashboard':
+        return 'Dashboard';
+      case '/orders':
+        return 'Orders';
+      default:
+        return '';
+    }
+  };
+
 	return (
-		<Box sx={{ display: "flex" }}>
-			<CssBaseline />
-			<AppBar position="absolute" open={open}>
-				<Toolbar
-				// sx={{
-				// 	pr: "24px", // keep right padding when drawer closed
-				// }}
-				>
-					<IconButton
-						edge="start"
-						color="inherit"
-						aria-label="open drawer"
-						onClick={toggleDrawer}
+		<ThemeProvider theme={defaultTheme}>
+			<Box sx={{ display: "flex" }}>
+				<CssBaseline />
+				<AppBar position="absolute" open={open}>
+					<Toolbar
 						sx={{
-							marginRight: "36px",
-							...(open && { display: "none" }),
+							pr: "24px", // keep right padding when drawer closed
 						}}
 					>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						component="h1"
-						variant="h6"
-						color="inherit"
-						noWrap
-						sx={{ flexGrow: 1 }}
+						<IconButton
+							edge="start"
+							color="inherit"
+							aria-label="open drawer"
+							onClick={toggleDrawer}
+							sx={{
+								marginRight: "36px",
+								...(open && { display: "none" }),
+							}}
+						>
+							<MenuIcon />
+						</IconButton>
+						<Typography
+							component="h1"
+							variant="h6"
+							color="inherit"
+							noWrap
+							sx={{ flexGrow: 1 }}
+						>
+							{getPageName(path)}
+						</Typography>
+						<IconButton color="inherit">
+							<Badge badgeContent={4} color="secondary">
+								<NotificationsIcon />
+							</Badge>
+						</IconButton>
+					</Toolbar>
+				</AppBar>
+				<Drawer variant="permanent" open={open}>
+					<Toolbar
+						sx={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "flex-end",
+							px: [1],
+						}}
 					>
-						Dashboard
-					</Typography>
-					<IconButton color="inherit">
-						<Badge badgeContent={4} color="secondary">
-							<NotificationsIcon />
-						</Badge>
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-			<Drawer variant="permanent" open={open}>
-				<Toolbar
+						<IconButton onClick={toggleDrawer}>
+							<ChevronLeftIcon />
+						</IconButton>
+					</Toolbar>
+					<Divider />
+					<List component="nav">
+						{mainListItems}
+						<Divider sx={{ my: 1 }} />
+						{secondaryListItems}
+					</List>
+				</Drawer>
+				<Box
+					component="main"
 					sx={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "flex-end",
-						px: [1],
+						backgroundColor: (theme) =>
+							theme.palette.mode === "light"
+								? theme.palette.grey[100]
+								: theme.palette.grey[900],
+						flexGrow: 1,
+						height: "100vh",
+						overflow: "auto",
 					}}
 				>
-					<IconButton onClick={toggleDrawer}>
-						<ChevronLeftIcon />
-					</IconButton>
-				</Toolbar>
-				<Divider />
-				<List component="nav">
-					{mainListItems}
-					<Divider sx={{ my: 1 }} />
-					{secondaryListItems}
-				</List>
-			</Drawer>
-			<Box
-				component="main"
-				sx={{
-					backgroundColor: (theme) =>
-						theme.palette.mode === "light"
-							? theme.palette.grey[100]
-							: theme.palette.grey[900],
-					flexGrow: 1,
-					height: "100vh",
-					overflow: "auto",
-				}}
-			>
-				<Toolbar />
+					<Toolbar />
+					{children}
+				</Box>
 			</Box>
-		</Box>
+		</ThemeProvider>
 	);
-}
+};
+export default MainLayout;

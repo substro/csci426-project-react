@@ -8,41 +8,58 @@ import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
-import * as React from "react";
+import { Link } from "react-router-dom";
 
 export const mainListItems = (
 	<>
-		<ListItemButton>
-			<ListItemIcon>
-				<DashboardIcon />
-			</ListItemIcon>
-			<ListItemText primary="Dashboard" />
-		</ListItemButton>
-		<ListItemButton>
-			<ListItemIcon>
-				<ShoppingCartIcon />
-			</ListItemIcon>
-			<ListItemText primary="Orders" />
-		</ListItemButton>
-		<ListItemButton>
-			<ListItemIcon>
-				<PeopleIcon />
-			</ListItemIcon>
-			<ListItemText primary="Customers" />
-		</ListItemButton>
-		<ListItemButton>
-			<ListItemIcon>
-				<BarChartIcon />
-			</ListItemIcon>
-			<ListItemText primary="Reports" />
-		</ListItemButton>
-		<ListItemButton>
-			<ListItemIcon>
-				<LayersIcon />
-			</ListItemIcon>
-			<ListItemText primary="Integrations" />
-		</ListItemButton>
+		<Link to={"/"}>
+			<ListItemButton>
+				<ListItemIcon>
+					<DashboardIcon />
+				</ListItemIcon>
+				<ListItemText primary="Home" />
+			</ListItemButton>
+		</Link>
+		<Link to={"/dashboard"}>
+			<ListItemButton>
+				<ListItemIcon>
+					<DashboardIcon />
+				</ListItemIcon>
+				<ListItemText primary="Dashboard" />
+			</ListItemButton>
+		</Link>
+	<Link to={"/orders"}>
+			<ListItemButton>
+				<ListItemIcon>
+					<ShoppingCartIcon />
+				</ListItemIcon>
+				<ListItemText primary="Orders" />
+			</ListItemButton>
+		</Link>
+	<Link to={"#"}>
+			<ListItemButton>
+				<ListItemIcon>
+					<PeopleIcon />
+				</ListItemIcon>
+				<ListItemText primary="Customers" />
+			</ListItemButton>
+		</Link>
+	<Link to={"#"}>
+			<ListItemButton>
+				<ListItemIcon>
+					<BarChartIcon />
+				</ListItemIcon>
+				<ListItemText primary="Reports" />
+			</ListItemButton>
+		</Link>
+	<Link to={"#"}>
+			<ListItemButton>
+				<ListItemIcon>
+					<LayersIcon />
+				</ListItemIcon>
+				<ListItemText primary="Integrations" />
+			</ListItemButton>
+		</Link>
 	</>
 );
 
