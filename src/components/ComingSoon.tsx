@@ -1,29 +1,48 @@
-import { Alert, AlertTitle, Box, Container, Grid } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
+// import React from "react";
+import bgImage from "./cookie-the-pom-siNDDi9RpVY-unsplash.jpg";
+
 function ComingSoon() {
 	return (
-		<Box className="bg-slate-400" sx={{}}>
-			{/* <Container maxWidth="xs"  className=""> */}
-			{/* <Alert variant="standard" severity="info" sx={{ mt: 0, width: "30%" }}>
-				<AlertTitle>Coming Soon</AlertTitle>
-				Page unavailable — <strong>Check Back Later!</strong>
-			</Alert> */}
-			{/* </Container> */}
-
-			<Grid
-				container
-				justifyContent="center"
-				alignItems="center"
+		<Box
+			// className="w-full"
+			sx={{
+				height: "100vh",
+				backgroundImage: `url(${bgImage})`,
+				backgroundRepeat: "no-repeat",
+				backgroundPosition: "center", // Adjust background position if needed
+				backgroundSize: "cover",
+			}}
+		>
+			{/* Content */}
+			<Container
 				sx={{
-					height: "100vh",
+					// width: "100px",
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
 				}}
+				className="backdrop-blur-[5px]  h-full bg-[#00000090] min-w-full"
 			>
-				<Grid item xs={10}>
-					<Alert variant="standard" severity="info" sx={{ mt: 0 }}>
-						<AlertTitle>Coming Soon</AlertTitle>
-						This Page Is Unavailable Yet — <strong>Check Back Later!</strong>
-					</Alert>
-				</Grid>
-			</Grid>
+				<Typography
+					variant="h1"
+					align="center"
+					color="white"
+					fontSize={"5.5rem"}
+				>
+					Coming Soon!
+				</Typography>
+				<Typography
+					variant="subtitle1"
+					align="center"
+					color="#ffffff"
+					fontSize={"1.5rem"}
+				>
+					We're working hard to bring you something amazing. Please check back
+					soon!
+				</Typography>
+			</Container>
 		</Box>
 	);
 }

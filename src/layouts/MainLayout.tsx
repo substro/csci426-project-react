@@ -13,10 +13,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import * as React from "react";
-import { mainListItems, secondaryListItems } from "./listItems";
 import { useLocation } from "react-router-dom";
-
-
+import { mainListItems, secondaryListItems } from "./listItems";
 
 const drawerWidth: number = 240;
 
@@ -79,28 +77,26 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
 	const { children } = props;
 
 	const location = useLocation();
-  const path = location.pathname;
+	const path = location.pathname;
 
 	const [open, setOpen] = React.useState(true);
 	const toggleDrawer = () => {
 		setOpen(!open);
 	};
 
-
-
-  // Function to get the page name from the path
-  const getPageName = (path: string) => {
-    switch (path) {
-      case '/':
-        return 'Home';
-      case '/dashboard':
-        return 'Dashboard';
-      case '/orders':
-        return 'Orders';
-      default:
-        return '';
-    }
-  };
+	// Function to get the page name from the path
+	const getPageName = (path: string) => {
+		switch (path) {
+			case "/":
+				return "Home";
+			case "/dashboard":
+				return "Dashboard";
+			case "/orders":
+				return "Orders";
+			default:
+				return "";
+		}
+	};
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -169,7 +165,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
 								: theme.palette.grey[900],
 						flexGrow: 1,
 						height: "100vh",
-						overflow: "auto",
+						overflow: "hidden",
 					}}
 				>
 					<Toolbar />
