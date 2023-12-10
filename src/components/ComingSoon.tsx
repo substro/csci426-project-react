@@ -1,23 +1,19 @@
 import { Box, Container, Typography } from "@mui/material";
-// import React from "react";
-import bgImage from "./cookie-the-pom-siNDDi9RpVY-unsplash.jpg";
+import bgImage from "../assets/images/cookie-the-pom-siNDDi9RpVY-unsplash.jpg";
 
 function ComingSoon() {
 	return (
 		<Box
-			// className="w-full"
 			sx={{
 				height: "100vh",
 				backgroundImage: `url(${bgImage})`,
 				backgroundRepeat: "no-repeat",
-				backgroundPosition: "center", // Adjust background position if needed
+				backgroundPosition: "center",
 				backgroundSize: "cover",
 			}}
 		>
-			{/* Content */}
 			<Container
 				sx={{
-					// width: "100px",
 					display: "flex",
 					flexDirection: "column",
 					justifyContent: "center",
