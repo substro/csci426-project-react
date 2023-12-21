@@ -12,14 +12,6 @@ import { Link } from "react-router-dom";
 
 export const mainListItems = (
 	<>
-		<Link to={"/"}>
-			<ListItemButton>
-				<ListItemIcon>
-					<DashboardIcon />
-				</ListItemIcon>
-				<ListItemText primary="Home" />
-			</ListItemButton>
-		</Link>
 		<Link to={"/dashboard"}>
 			<ListItemButton>
 				<ListItemIcon>

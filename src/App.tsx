@@ -1,17 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import PreLoader from './components/PreLoader';
-import ComingSoon from "./components/ComingSoon";
 import MainLayout from "./layouts/MainLayout";
+import { routes } from "./routes/Routes";
 
 function App() {
 	return (
 		<BrowserRouter>
-			{/* <PreLoader /> */}
 			<MainLayout>
 				<Routes>
-					<Route path="/" element={<ComingSoon />} />
-					<Route path="/dashboard" element={<ComingSoon />} />
-					<Route path="/orders" element={<ComingSoon />} />
+					{routes.map((route, index) => (
+						<Route key={index} {...route} />
+					))}
 				</Routes>
 			</MainLayout>
 		</BrowserRouter>
