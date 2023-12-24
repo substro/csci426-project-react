@@ -14,14 +14,25 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
 	const navigate = useNavigate();
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
-		navigate("/dashboard");
+		const formData = new FormData(event.currentTarget);
+
+		console.log(formData.getAll);
+
+		// try {
+		// 	const response = await fetch("/backend/auth/addUser.php", {
+		// 		method: "POST",
+		// 		body: formData,
+		// 	});
+
+		// 	if (!response.ok) {
+		// 		throw new Error("Failed !!");
+		// 	}
+		// 	navigate("/dashboard");
+		// } catch (e) {
+		// 	console.log(e);
+		// }
 	};
 
 	return (
@@ -44,8 +55,8 @@ export default function SignUp() {
 					</Typography>
 					<Box
 						component="form"
-						noValidate
 						onSubmit={handleSubmit}
+						noValidate
 						sx={{ mt: 3 }}
 					>
 						<Grid container spacing={2}>

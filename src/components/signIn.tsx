@@ -9,17 +9,44 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 import * as React from "react";
+import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function SignInSide() {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function SignIn() {
+	const [inputs, setInputs] = useState({});
+
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const name = event.target.name;
+		const value = event.target.value;
+		setInputs((values) => ({
+			...values,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
+
+		try {
+			const response = await axios.post(
+				"http://localhost/csci426-project-backend/backend/api/auth/sign-in.php",
+				inputs
+			);
+			const { data } = response;
+			if (data && data.userExists !== undefined) {
+				if (data.userExists) {
+					console.log("login successful");
+				} else {
+					console.log("login failed");
+				}
+			} else {
+				console.log("Unexpected response from server");
+			}
+		} catch (e) {
+			console.log("Errors:" + e);
+		}
 	};
 
 	return (
@@ -66,6 +93,7 @@ export default function SignInSide() {
 							sx={{ mt: 1 }}
 						>
 							<TextField
+								onChange={handleChange}
 								margin="normal"
 								required
 								fullWidth
@@ -76,6 +104,7 @@ export default function SignInSide() {
 								autoFocus
 							/>
 							<TextField
+								onChange={handleChange}
 								margin="normal"
 								required
 								fullWidth

@@ -20,12 +20,12 @@ export const mainListItems = (
 				<ListItemText primary="Dashboard" />
 			</ListItemButton>
 		</Link>
-		<Link to={"/orders"}>
+		<Link to={"/projects"}>
 			<ListItemButton>
 				<ListItemIcon>
 					<ShoppingCartIcon />
 				</ListItemIcon>
-				<ListItemText primary="Orders" />
+				<ListItemText primary="Projects" />
 			</ListItemButton>
 		</Link>
 		<Link to={"#"}>
