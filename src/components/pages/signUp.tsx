@@ -9,30 +9,43 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
-	const navigate = useNavigate();
+	const [inputs, setInputs] = React.useState({});
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const name = event.target.name;
+		const value = event.target.value;
+		setInputs((values) => ({
+			...values,
+			[name]: value,
+		}));
+	};
+
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const formData = new FormData(event.currentTarget);
 
-		console.log(formData.getAll);
-
-		// try {
-		// 	const response = await fetch("/backend/auth/addUser.php", {
-		// 		method: "POST",
-		// 		body: formData,
-		// 	});
-
-		// 	if (!response.ok) {
-		// 		throw new Error("Failed !!");
-		// 	}
-		// 	navigate("/dashboard");
-		// } catch (e) {
-		// 	console.log(e);
-		// }
+		try {
+			const response = await axios.post(
+				"http://localhost/csci426-project-backend/backend/api/auth/sign-up.php",
+				inputs
+			);
+			const { data } = response;
+			if (data && data.errors !== undefined) {
+				if (data.errors.email) {
+					console.log("user already exists");
+				} else {
+					console.log("sign up success");
+				}
+			} else {
+				console.log("Unexpected response from server");
+			}
+		} catch (e) {
+			console.log("Errors:" + e);
+		}
 	};
 
 	return (
@@ -62,6 +75,7 @@ export default function SignUp() {
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={6}>
 								<TextField
+									onChange={handleChange}
 									autoComplete="given-name"
 									name="firstName"
 									required
@@ -73,6 +87,7 @@ export default function SignUp() {
 							</Grid>
 							<Grid item xs={12} sm={6}>
 								<TextField
+									onChange={handleChange}
 									required
 									fullWidth
 									id="lastName"
@@ -83,6 +98,7 @@ export default function SignUp() {
 							</Grid>
 							<Grid item xs={12}>
 								<TextField
+									onChange={handleChange}
 									required
 									fullWidth
 									id="email"
@@ -93,6 +109,7 @@ export default function SignUp() {
 							</Grid>
 							<Grid item xs={12}>
 								<TextField
+									onChange={handleChange}
 									required
 									fullWidth
 									name="password"

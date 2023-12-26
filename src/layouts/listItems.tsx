@@ -63,12 +63,14 @@ export const secondaryListItems = (
 			</ListItemIcon>
 			<ListItemText primary="Upgrade Plan" />
 		</ListItemButton>
-		<ListItemButton>
-			<ListItemIcon>
-				<Settings />
-			</ListItemIcon>
-			<ListItemText primary="Settings" />
-		</ListItemButton>
+		<Link to="/settings">
+			<ListItemButton>
+				<ListItemIcon>
+					<Settings />
+				</ListItemIcon>
+				<ListItemText primary="Settings" />
+			</ListItemButton>
+		</Link>
 		<ListItemButton>
 			<ListItemIcon>
 				<Feedback />
