@@ -12,6 +12,7 @@ import {
 	Stack,
 	Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 
@@ -29,17 +30,17 @@ const VisuallyHiddenInput = styled("input")({
 
 const style = {
 	position: "absolute" as const,
-	top: "50%",
+	top: "40%",
 	left: "50%",
 	transform: "translate(-50%, -50%)",
-	width: "clamp(400px, 30vw, 700px)",
+	width: "clamp(400px, 40vw, 1000px)",
 	bgcolor: "background.paper",
 	border: "2px solid #000",
 	boxShadow: 24,
 	p: 4,
 };
 
-export default function CustomAvatar() {
+export default function EditableAvatar() {
 	const [ModalOpen, setModalOpen] = useState(false);
 
 	const handleOpen = () => setModalOpen(true);
@@ -61,10 +62,32 @@ export default function CustomAvatar() {
 
 	const handleSave = async () => {
 		if (editorRef.current && selectedImage) {
-			const dataUrl = editorRef.current.getImage().toDataURL();
-			setAvatarImage(dataUrl);
-			setModalOpen(false);
-			// Perform other actions with dataUrl or save it.
+			const formData = new FormData();
+			formData.append("file", selectedImage);
+
+			try {
+				const response = await axios.post(
+					"http://localhost/csci426-project-backend/backend/api/upload-avatar.php",
+					formData,
+					{
+						headers: {
+							"Content-Type": "multipart/form-data",
+						},
+					}
+				);
+
+				if (response.status === 200) {
+					// Handle success, e.g., update user's avatar link in the database
+					console.log(response.data);
+					setModalOpen(false);
+				} else {
+					// Handle error
+					console.error("Upload failed!");
+				}
+			} catch (error) {
+				// Handle network error
+				console.error("Network error:", error);
+			}
 		}
 	};
 	const handleScaleChange = (_: Event, newValue: number | number[]) => {
@@ -78,6 +101,37 @@ export default function CustomAvatar() {
 	function handleDelete(): void {
 		throw new Error("Function not implemented.");
 	}
+	function stringToColor(string: string) {
+		let hash = 0;
+		let i;
+
+		/* eslint-disable no-bitwise */
+		for (i = 0; i < string.length; i += 1) {
+			hash = string.charCodeAt(i) + ((hash << 5) - hash);
+		}
+
+		let color = "#";
+
+		for (i = 0; i < 3; i += 1) {
+			const value = (hash >> (i * 8)) & 0xff;
+			color += `00${value.toString(16)}`.slice(-2);
+		}
+		/* eslint-enable no-bitwise */
+
+		return color;
+	}
+
+	function stringAvatar(name: string) {
+		return {
+			sx: {
+				bgcolor: stringToColor(name),
+				position: "relative",
+				width: "150px",
+				height: "150px",
+			},
+			children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+		};
+	}
 
 	return (
 		<>
@@ -86,35 +140,33 @@ export default function CustomAvatar() {
 				sx={{ overflow: "hidden" }}
 				onClick={handleOpen}
 			>
-				<Avatar
-					sx={{ position: "relative", width: "100px", height: "100px" }}
-					src={avatarImage || undefined}
-				/>
-				<div
-					style={{
-						height: "100%",
-						width: "100%",
-						position: "absolute",
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						backgroundColor: "rgba(255,255,255,0.3)",
-					}}
-				>
-					<CameraAltIcon />
-				</div>
+				<Avatar {...stringAvatar("Ali Amin")} src={avatarImage || undefined}>
+					<div
+						style={{
+							height: "100%",
+							width: "100%",
+							position: "absolute",
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							backgroundColor: "rgba(0,0,0,0.3)",
+						}}
+					>
+						<CameraAltIcon className="text-white" fontSize="large" />
+					</div>
+				</Avatar>
 			</IconButton>
 			<Modal
 				open={ModalOpen}
 				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
+				// aria-labelledby="modal-modal-title"
+				// aria-describedby="modal-modal-description"
 			>
 				<Box sx={style}>
 					<Box
 						sx={{
 							width: "100%",
-							bgcolor: "black",
+							bgcolor: "#d4d4d4",
 							display: "flex",
 							justifyContent: "center",
 						}}
@@ -122,12 +174,12 @@ export default function CustomAvatar() {
 						<AvatarEditor
 							ref={editorRef}
 							image={selectedImage || ""}
-							border={10}
+							border={15}
 							width={300}
 							height={300}
 							className={"box-border"}
 							borderRadius={500}
-							color={[255, 255, 255, 0.6]} // RGBA
+							color={[0, 0, 0, 0.8]} // RGBA
 							scale={scale}
 							rotate={rotation}
 						/>

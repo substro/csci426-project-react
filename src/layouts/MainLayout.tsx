@@ -1,7 +1,6 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { Avatar } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
@@ -16,6 +15,7 @@ import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import LetterAvatar from "../components/LetterAvatar";
 import { mainListItems, secondaryListItems } from "./listItems";
 
 const drawerWidth: number = 240;
@@ -141,7 +141,7 @@ const MainLayout: React.FC<MainLayoutProps> = (props) => {
 						</Badge>
 					</IconButton>
 					<IconButton color="inherit">
-						<Avatar />
+						<LetterAvatar />
 					</IconButton>
 				</Toolbar>
 			</AppBar>
