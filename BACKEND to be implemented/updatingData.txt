@@ -1,0 +1,64 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include("config.php");
+
+// Starting the session
+session_start();
+
+// Check if the form has been submitted using the POST method
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Assuming you have retrieved user data from a form
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $country_name = $_POST['country_name'];
+    $phone_number = $_POST['phone_number'];
+    $gender = $_POST['gender'];
+    $date_of_birth = $_POST['date_of_birth'];
+    $about = $_POST['about'];
+    $profile_pic = $_POST['profile_pic'];
+    $phone_code = isset($_POST['phone_code']) ? $_POST['phone_code'] : ''; // Handle empty phone_code
+
+    
+
+    // Check if the user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        echo "User not logged in";
+        exit();
+    }
+
+    // Get user_id from the session
+    $user_id = $_SESSION['user_id'];
+    // Update user_profile table without prepared statement
+    $sql_update_profile = "UPDATE user_profile
+                             SET username = '$username',
+                                 email = '$email',
+                                 country_name = '$country_name',
+                                 phone_number = '$phone_number',
+                                 gender = '$gender',
+                                 date_of_birth = '$date_of_birth',
+                                 about = '$about',
+                                 profile_pic = '$profile_pic',
+                                 phone_code = '$phone_code'
+                           WHERE user_id = $user_id";
+
+    // Execute the update query
+    $result_update_profile = mysqli_query($conn, $sql_update_profile);
+
+    if ($result_update_profile) {
+        // Update successful
+        echo "Profile updated successfully";
+    } else {
+        // Update failed
+        echo "Error updating profile: " . mysqli_error($conn);
+        echo "<br>Query: " . $sql_update_profile; // Output the query for debugging
+    }
+} else {
+    // Form not submitted using the POST method
+    echo "Form not submitted";
+}
+?>
+
+
+

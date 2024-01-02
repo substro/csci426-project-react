@@ -1,0 +1,67 @@
+<?php
+include("config.php");
+
+// Get user input from the login form
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+// Validate and sanitize user input (omitted for brevity)
+
+// Perform the authentication query
+$sql = "SELECT user_id FROM users WHERE username = '$username' AND password = '$password'";
+$result = mysqli_query($conn, $sql);
+
+// Check if the query was successful and if a user was found
+if ($result && mysqli_num_rows($result) > 0) {
+    // Fetch the user_id from the result set
+    $row = mysqli_fetch_assoc($result);
+    $user_id = $row['user_id'];
+
+    // Start the session and store user_id
+    session_start();
+    $_SESSION['user_id'] = $user_id;
+
+    // Redirect to a different page or perform other actions
+    header("Location: dashboard.php");
+    exit();
+} else {
+    // Authentication failed
+    echo "Invalid username or password";
+}
+?>
+
+
+
+//now signup code  
+
+
+<?php
+include("config.php");
+
+// Get user input from the signup form
+$newUsername = $_POST['username'];
+$newPassword = $_POST['password']; // Note: You should hash the password before storing it
+// ... (other signup form fields)
+
+// Validate and sanitize user input (omitted for brevity)
+
+// Insert the new user into the database
+$sqlInsertUser = "INSERT INTO users (username, password) VALUES ('$newUsername', '$newPassword')";
+$resultInsertUser = mysqli_query($conn, $sqlInsertUser);
+
+if ($resultInsertUser) {
+    // If signup is successful, initiate session and store user_id
+    $newlyCreatedUserId = mysqli_insert_id($conn);
+
+    session_start();
+    $_SESSION['user_id'] = $newlyCreatedUserId;
+
+    // Redirect to the main page or dashboard
+    header("Location: dashboard.php"); // Adjust the URL as needed
+    exit();
+} else {
+    // Signup failed
+    echo "Error signing up: " . mysqli_error($conn);
+}
+?>
+

@@ -1,0 +1,67 @@
+<?php
+include 'config.php';
+
+if (isset($_POST['upload'])) {
+    $file = rand(1000, 100000) . "-" . $_FILES['file']['name'];
+    $file_loc = $_FILES['file']['tmp_name'];
+    $file_size = $_FILES['file']['size'];
+    $file_type = $_FILES['file']['type'];
+
+    $new_size = $file_size / 1024;
+    $new_file_name = strtolower($file);
+    $final_file = str_replace(' ', '-', $new_file_name);
+
+    $extensions = array('image/jpeg', 'image/png', 'image/gif');
+    if (in_array($file_type, $extensions)) {
+        $folder = "uploads/";
+    } else {
+        echo "Invalid file type. Allowed types: JPEG, PNG, GIF.";
+        exit();
+    }
+
+   // ...
+
+if (move_uploaded_file($file_loc, $folder . $final_file)) {
+    $sql = "INSERT INTO images (id, file, type, size) VALUES ('$final_file', '$file_type', '$new_size')";
+    mysqli_query($conn, $sql);
+    echo 'File uploaded successfully';
+    header("Location: index.php?success");
+    exit();
+} else {
+    echo "Error while uploading file. Debug info: " . print_r($_FILES, true);
+    exit();
+}
+
+// ...
+
+} else {
+    echo 'I am out';
+}
+?>
+
+
+// to retrieve and view the images in the profile shape :  
+
+
+<?php
+    include 'config.php';
+
+    $sql = "SELECT * FROM images";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<img src="uploads/' . $row['file'] . '" alt="Image" width="150" height="150" />';
+
+            // lezem 5aliha tb3at url bi json file (json decode)
+        }
+    } else {
+        echo 'No images found.';
+    }
+
+    mysqli_close($conn);
+    ?>
+
+
+
+
