@@ -12,10 +12,11 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import * as React from "react";
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
 	const [inputs, setInputs] = useState({});
+	const navigate = useNavigate();
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const name = event.target.name;
@@ -38,6 +39,7 @@ export default function SignIn() {
 			if (data && data.userExists !== undefined) {
 				if (data.userExists) {
 					console.log("login successful");
+					navigate("/settings");
 				} else {
 					console.log("login failed");
 				}

@@ -1,9 +1,9 @@
 import { Feedback, Settings } from "@mui/icons-material/";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LayersIcon from "@mui/icons-material/Layers";
 import PeopleIcon from "@mui/icons-material/People";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -23,7 +23,7 @@ export const mainListItems = (
 		<Link to={"/projects"}>
 			<ListItemButton>
 				<ListItemIcon>
-					<ShoppingCartIcon />
+					<AssignmentIcon />
 				</ListItemIcon>
 				<ListItemText primary="Projects" />
 			</ListItemButton>

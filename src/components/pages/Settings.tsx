@@ -11,61 +11,41 @@ import Box from "@mui/material/Box";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { default as CountrySelector } from "../CountrySlecector";
 import EditableAvatar from "../EditableAvatar";
 import GenderSlecector from "../GenderSelect";
 
 export default function Settings() {
-	const [formData, setFormData] = useState({
-		username: "",
-		email: "",
-		country_name: "",
-		phone_code: "",
-		phone_number: "",
-		gender: "",
-		date_of_birth: null,
-		about: "",
-	});
 	const [isEditable, setIsEditable] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
+	const [userData, setUserData] = useState(null);
 
 	const handleShowPassword = () => {
 		setShowPassword(!showPassword);
 	};
-
-	const handleInputChange = (event) => {
-		const { name, value } = event.target;
-		setFormData({
-			...formData,
-			[name]: value,
-		});
-	};
-	const handleSubmit = async (event) => {
+	function handleSubmit(event: FormEvent<HTMLFormElement>): void {
 		event.preventDefault();
-		try {
-			const response = await axios.post("updatingData.php", formData);
-			alert(response.data); // Show success message or handle response
-		} catch (error) {
-			alert("Error updating data"); // Handle error
-		}
-	};
-
+		throw new Error("Function not implemented.");
+	}
 	useEffect(() => {
-		// Fetch user profile data when component mounts
-		const fetchUserProfileData = async () => {
-			try {
-				const response = await axios.post("fetchUserData.php");
-				const userData = response.data;
-
-				setFormData(userData); // Set form data with fetched user data
-			} catch (error) {
-				console.error("Error fetching profile data:", error);
-			}
-		};
-
-		fetchUserProfileData();
+		axios
+			.get(
+				"http://localhost/csci426-project-backend/backend/api/get-user-data.php?",
+				{}
+			)
+			.then((response) => {
+				if (response.data.success) {
+					setUserData(response.data.data);
+				} else {
+					console.log(response.data.message);
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}, []);
+
 	return (
 		<Box
 			display={"flex"}
@@ -140,7 +120,8 @@ export default function Settings() {
 						disabled={!isEditable}
 						type={showPassword ? "text" : "password"}
 						id="password"
-						defaultValue="example@gmail.com"
+						defaultValue=""
+						// value={formData.password}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="end">
