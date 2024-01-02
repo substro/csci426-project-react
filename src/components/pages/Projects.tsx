@@ -3,6 +3,7 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
+	SelectChangeEvent,
 	Table,
 	TableBody,
 	TableCell,
@@ -11,13 +12,20 @@ import {
 	TableRow,
 	TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
+
+interface Project {
+	id: number;
+	name: string;
+	startDate: string;
+	members: string[];
+}
 
 function Projects() {
-	const [searchTerm, setSearchTerm] = useState("");
-	const [sortKey, setSortKey] = useState("name");
+	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [sortKey, setSortKey] = useState<string>("name");
 
-	const projects = [
+	const projects: Project[] = [
 		{
 			id: 1,
 			name: "bProject 1",
@@ -33,12 +41,13 @@ function Projects() {
 		// ... Add more projects
 	];
 
-	const handleSearchChange = (event) => {
+	const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(event.target.value);
 	};
 
-	const handleSortChange = (event) => {
-		setSortKey(event.target.value);
+	const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+		const selectedValue = event.target.value as string;
+		setSortKey(selectedValue);
 	};
 
 	const filteredProjects = projects.filter((project) =>
@@ -46,10 +55,10 @@ function Projects() {
 	);
 
 	// Sorting logic
-	const sortProjects = (projects, key) => {
-		return projects.slice().sort((a, b) => {
-			if (a[key] < b[key]) return -1;
-			if (a[key] > b[key]) return 1;
+	const sortProjects = (projects: Project[], key: string) => {
+		return projects.slice().sort((a: Project, b: Project) => {
+			if (a[key as keyof Project] < b[key as keyof Project]) return -1;
+			if (a[key as keyof Project] > b[key as keyof Project]) return 1;
 			return 0;
 		});
 	};
@@ -70,7 +79,9 @@ function Projects() {
 				<Select
 					labelId="sort-label"
 					value={sortKey}
-					onChange={handleSortChange}
+					onChange={
+						handleSortChange as (event: SelectChangeEvent<string>) => void
+					}
 					label="Sort by"
 				>
 					<MenuItem value="name">Name</MenuItem>

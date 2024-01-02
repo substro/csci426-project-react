@@ -1,5 +1,4 @@
 import Avatar from "@mui/material/Avatar";
-import * as React from "react";
 
 function stringToColor(string: string) {
 	let hash = 0;

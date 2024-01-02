@@ -80,6 +80,7 @@ export default function EditableAvatar() {
 					// Handle success, e.g., update user's avatar link in the database
 					console.log(response.data);
 					setModalOpen(false);
+					setAvatarImage(response.data.imagePath);
 				} else {
 					// Handle error
 					console.error("Upload failed!");

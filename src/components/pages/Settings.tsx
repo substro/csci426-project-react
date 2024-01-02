@@ -19,7 +19,7 @@ import GenderSlecector from "../GenderSelect";
 export default function Settings() {
 	const [isEditable, setIsEditable] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
-	const [userData, setUserData] = useState(null);
+	const [, setUserData] = useState(null);
 
 	const handleShowPassword = () => {
 		setShowPassword(!showPassword);

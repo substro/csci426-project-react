@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import SignInSide from "./components/signIn";
-import Projects from "./components/pages/Projects";
 import MainLayout from "./layouts/MainLayout";
 import { routes } from "./routes/Routes";
 

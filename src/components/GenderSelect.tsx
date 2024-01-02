@@ -6,7 +6,11 @@ import {
 } from "@mui/material";
 import React from "react";
 
-function GenderSelector({ isEditable }) {
+interface GenderSelectorProps {
+	isEditable: boolean; // Define the type of isEditable
+}
+
+function GenderSelector({ isEditable }: GenderSelectorProps) {
 	// Add isEditable as a prop
 	const [gender, setGender] = React.useState("");
 
